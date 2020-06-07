@@ -1,0 +1,64 @@
+{
+  "name": "react-fast-pinch-zoom",
+  "version": "1.0.0",
+  "main": "cmj/index.js",
+  "module": "esm/index.js",
+  "types": "esm/index.d.ts",
+  "peerDependencies": {
+    "react": ">=16.4.0",
+    "react-dom": ">=16.4.0",
+    "tslib": ">=2.0.0"
+  },
+  "files": [
+    "esm",
+    "cmj"
+  ],
+  "scripts": {
+    "website": "parcel build example/index.html",
+    "dev": "parcel example/index.html -p 3000",
+    "presize": "yarn build",
+    "size": "size-limit",
+    "prebuild": "rm -rf esm cmj",
+    "build": "tsc --module ES2020 --declaration true --outDir esm && tsc --module CommonJS --outDir cmj",
+    "postbuild": "rm -rf esm/__tests__ cmj/__tests__;npx prettier --write cmj/**/*.js esm/**/*.js esm/**/*.d.ts",
+    "prepublishOnly": "yarn run build"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^4.5.0",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "parcel-bundler": "^1.12.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "size-limit": "^4.5.0",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.5"
+  },
+  "keywords": [
+    "react",
+    "gesture",
+    "mouse",
+    "trackpad",
+    "touch",
+    "drag",
+    "pinch",
+    "scale",
+    "zoom",
+    "scroll",
+    "wheel",
+    "pan",
+    "animation",
+    "velocity",
+    "css",
+    "fast",
+    "transformations",
+    "viewer",
+    "reacts",
+    "css3",
+    "svg",
+    "bounds",
+    "context",
+    "reactjs"
+  ]
+}
