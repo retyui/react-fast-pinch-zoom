@@ -1,7 +1,7 @@
 import { Pointer } from "./Pointer";
 import { noop, isPointerEvent } from "./utils";
 
-type Callbacks = {
+interface Callbacks {
   start?: (
     pointer: Pointer,
     event: TouchEvent | PointerEvent | MouseEvent
@@ -15,7 +15,7 @@ type Callbacks = {
     pointer: Pointer,
     event: PointerEvent | MouseEvent | TouchEvent
   ) => void;
-};
+}
 
 const removeEventListener = "removeEventListener";
 const addEventListener = "addEventListener";
@@ -27,14 +27,14 @@ export class PointerTracker {
    * @param root Element to monitor.
    * @param callbacks
    */
-  e: Element;
+  e: HTMLElement;
   startPointers: Array<Pointer>;
   currentPointers: Array<Pointer>;
   _startCallback: Required<Callbacks>["start"];
   _moveCallback: Required<Callbacks>["move"];
   _endCallback: Required<Callbacks>["end"];
 
-  constructor(root: Element, callbacks: Callbacks) {
+  constructor(root: HTMLElement, callbacks: Callbacks) {
     const { start = () => true, move = noop, end = noop } = callbacks;
 
     this.e = root;
@@ -80,7 +80,7 @@ export class PointerTracker {
       ["touchmove", this._move],
       ["touchstart", this._touchStart],
       ["mousemove", this._move],
-      ["mouseup", this._pointerEnd]
+      ["mouseup", this._pointerEnd],
     ].forEach(([eventName, fn]) => {
       this.e[removeEventListener](
         // @ts-ignore
@@ -158,13 +158,13 @@ export class PointerTracker {
     const previousPointers = this.currentPointers.slice();
     const changedPointers =
       "changedTouches" in event // Shortcut for 'is touch event'.
-        ? Array.from(event.changedTouches).map(t => new Pointer(t))
+        ? Array.from(event.changedTouches).map((t) => new Pointer(t))
         : [new Pointer(event)];
 
     const trackedChangedPointers: Array<Pointer> = [];
 
     for (const pointer of changedPointers) {
-      const index = this.currentPointers.findIndex(p => p.id === pointer.id);
+      const index = this.currentPointers.findIndex((p) => p.id === pointer.id);
 
       if (index === -1) {
         // Not a pointer we're tracking
@@ -192,7 +192,7 @@ export class PointerTracker {
     pointer: Pointer,
     event: PointerEvent | MouseEvent | TouchEvent
   ) {
-    const index = this.currentPointers.findIndex(p => p.id === pointer.id);
+    const index = this.currentPointers.findIndex((p) => p.id === pointer.id);
 
     // Not a pointer we're interested in?
     if (index === -1) {

@@ -1,4 +1,12 @@
-import * as React from "react";
+import React, {
+  Component,
+  HTMLAttributes,
+  createRef,
+  Children,
+  cloneElement,
+  Ref,
+  ComponentProps,
+} from "react";
 
 import { PointerTracker } from "./PointerTracker";
 import { createSvg } from "./svg";
@@ -6,27 +14,28 @@ import {
   getMidpoint,
   getDistance,
   getAbsoluteValue,
-  classNames
+  classNames,
 } from "./utils";
 import { childClassName, rootClassName } from "./PinchZoom.styles";
 import { Pointer } from "./Pointer";
-import { OwnProps } from "./types";
+import type { OwnProps } from "./types";
 
 const MIN_SCALE = 0.1;
 
-class PinchZoomComponent
-  extends React.Component<
-    OwnProps &
-      React.HTMLAttributes<HTMLDivElement> & { Container?: any; children: any }
-  >
+interface PinchZoomProps extends OwnProps, ComponentProps<"div"> {
+  Container?: any;
+  children: any;
+}
+
+class PinchZoomComponent extends Component<PinchZoomProps>
   implements PublicMethods {
   // @ts-ignore
-  private _root: { readonly current: HTMLDivElement } = React.createRef<
+  private _root: { readonly current: HTMLDivElement } = createRef<
     HTMLDivElement
   >();
   private _svg = createSvg();
   private _transform: SVGMatrix = this._svg.createMatrix();
-  private _unsubscribe: () => void;
+  private _unsubscribe: () => void = () => {};
   get x() {
     return this._transform.e;
   }
@@ -60,9 +69,9 @@ class PinchZoomComponent
 
         return true;
       },
-      move: previousPointers => {
+      move: (previousPointers) => {
         this._onPointerMove(previousPointers, pointerTracker.currentPointers);
-      }
+      },
     });
 
     rootDiv.addEventListener("wheel", this._onWheel);
@@ -79,7 +88,7 @@ class PinchZoomComponent
 
   render() {
     const { children, Container = "div", onTransform, ...props } = this.props;
-    const child = React.Children.only(children);
+    const child = Children.only(children);
 
     return (
       <Container
@@ -87,8 +96,8 @@ class PinchZoomComponent
         ref={this._root}
         className={classNames(rootClassName, props.className)}
       >
-        {React.cloneElement(child, {
-          className: classNames(childClassName, child.props.className)
+        {cloneElement(child, {
+          className: classNames(childClassName, child.props.className),
         })}
       </Container>
     );
@@ -188,7 +197,7 @@ class PinchZoomComponent
     this._applyChange({
       scaleDiff,
       originX: event.clientX - currentRect.left,
-      originY: event.clientY - currentRect.top
+      originY: event.clientY - currentRect.top,
     });
   };
 
@@ -213,7 +222,7 @@ class PinchZoomComponent
       originY,
       scaleDiff,
       panX: newMidpoint.clientX - prevMidpoint.clientX,
-      panY: newMidpoint.clientY - prevMidpoint.clientY
+      panY: newMidpoint.clientY - prevMidpoint.clientY,
     });
   }
   /** Transform the view & fire a change event */
@@ -231,7 +240,7 @@ class PinchZoomComponent
       panY = 0,
       originX = 0,
       originY = 0,
-      scaleDiff = 1
+      scaleDiff = 1,
     } = opts;
     const matrix = this._svg
       .createMatrix()
@@ -285,7 +294,7 @@ class PinchZoomComponent
   }
 }
 
-type PublicMethods = {
+interface PublicMethods {
   x: number;
   y: number;
   scale: number;
@@ -298,9 +307,9 @@ type PublicMethods = {
     }
   ): void;
   setTransform(options?: { x?: number; y?: number; scale?: number }): void;
-};
+}
 
-type PinchZoomOverridableComponent = {
+interface PinchZoomOverridableComponent {
   <C extends keyof JSX.IntrinsicElements>(
     props: {
       /**
@@ -309,17 +318,17 @@ type PinchZoomOverridableComponent = {
        */
       Container: C;
     } & OwnProps & {
-        ref?: React.Ref<PublicMethods>;
-      } & Omit<React.ComponentProps<C>, "ref">
+        ref?: Ref<PublicMethods>;
+      } & Omit<ComponentProps<C>, "ref">
   ): JSX.Element;
 
   (
     props: {
       Container?: undefined;
     } & OwnProps &
-      React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<PublicMethods> }
+      HTMLAttributes<HTMLDivElement> & { ref?: Ref<PublicMethods> }
   ): JSX.Element;
-};
+}
 
 // @ts-ignore
 export const PinchZoom: PinchZoomOverridableComponent = PinchZoomComponent;

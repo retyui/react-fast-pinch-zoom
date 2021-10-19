@@ -1,6 +1,6 @@
 {
   "name": "react-fast-pinch-zoom",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "cmj/index.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
@@ -9,9 +9,21 @@
     "react-dom": ">=16.4.0",
     "tslib": ">=2.0.0"
   },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "tslib": {
+      "optional": true
+    }
+  },
   "files": [
     "esm",
-    "cmj"
+    "cmj",
+    "!__tests__"
   ],
   "scripts": {
     "website": "parcel build example/index.html",
@@ -19,22 +31,24 @@
     "presize": "yarn build",
     "size": "size-limit",
     "prebuild": "rm -rf esm cmj",
-    "build": "tsc --module ES2020 --declaration true --outDir esm && tsc --module CommonJS --outDir cmj",
-    "postbuild": "rm -rf esm/__tests__ cmj/__tests__;npx prettier --write cmj/**/*.js esm/**/*.js esm/**/*.d.ts",
+    "build": "tsc --target es2015 --declaration true --outDir esm && tsc --module CommonJS --outDir cmj",
+    "postbuild": "prettier --write ./cmj ./esm",
     "prepublishOnly": "yarn run build"
   },
   "license": "MIT",
   "repository": "git@github.com:retyui/react-fast-pinch-zoom.git",
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^4.5.0",
-    "@types/react": "^16.9.35",
-    "@types/react-dom": "^16.9.8",
-    "parcel-bundler": "^1.12.4",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "size-limit": "^4.5.0",
-    "tslib": "^2.0.0",
-    "typescript": "^3.9.5"
+    "@size-limit/preset-small-lib": "^6.0.3",
+    "@tsconfig/create-react-app": "^1.0.2",
+    "@types/react": "^16.14.17",
+    "@types/react-dom": "^16.9.14",
+    "parcel": "^2.0.0",
+    "prettier": "^2.4.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "size-limit": "^6.0.3",
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.4"
   },
   "keywords": [
     "react",

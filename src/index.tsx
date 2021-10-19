@@ -1,5 +1,5 @@
 export { PinchZoom } from "./PinchZoom";
-export { OnTransformEvent } from "./types";
+export type { OnTransformEvent } from "./types";
 export {
   applyCssProperties,
   getTransform2DValue,

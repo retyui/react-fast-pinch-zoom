@@ -1,10 +1,9 @@
 # &#x3C;PinchZoom/&#x3E; - a react component for pinch zooming DOM elements.
 
-
+[![Code quality](https://github.com/retyui/react-fast-pinch-zoom/actions/workflows/nodejs.yml/badge.svg)](https://github.com/retyui/react-fast-pinch-zoom/actions/workflows/nodejs.yml)
 [![react-fast-pinch-zoom on npm](https://badgen.net/npm/v/react-fast-pinch-zoom)](https://www.npmjs.com/package/react-fast-pinch-zoom)
 [![react-fast-pinch-zoom downloads](https://badgen.net/npm/dm/react-fast-pinch-zoom)](https://www.npmtrends.com/react-fast-pinch-zoom)
 [![react-fast-pinch-zoom bundle size](https://badgen.net/bundlephobia/minzip/react-fast-pinch-zoom)](https://bundlephobia.com/result?p=react-fast-pinch-zoom)
-
 
 This is a migration of [GoogleChromeLabs/pinch-zoom](https://github.com/GoogleChromeLabs/pinch-zoom) to React!
 
@@ -19,7 +18,7 @@ yarn add pinch-zoom-element
 ```
 
 ```js
-import * as React from "react";
+import React, { useRef, useCallback } from "react";
 import {
   PinchZoom,
   applyCssProperties,
@@ -28,8 +27,8 @@ import {
 } from "react-fast-pinch-zoom";
 
 const App = () => {
-  const ref = React.useRef(null);
-  const onTransform = React.useCallback(({ x, y, scale }) => {
+  const ref = useRef(null);
+  const onTransform = useCallback(({ x, y, scale }) => {
     // Use CSS Custom Properties (Variables)
     applyCssProperties(ref.current, { x, y, scale });
 
@@ -82,7 +81,7 @@ Set the transform. All values are optional.
 pinchZoomRef.current.setTransform({
   scale: 1,
   x: 0,
-  y: 0
+  y: 0,
 });
 ```
 
@@ -96,6 +95,6 @@ pinchZoomRef.current.scaleTo(scale, {
   originX: 0,
   originY: 0,
   // Should the transform origin be relative to the "container", or "content"?
-  relativeTo: "content"
+  relativeTo: "content",
 });
 ```

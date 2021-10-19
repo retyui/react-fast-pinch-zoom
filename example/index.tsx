@@ -1,11 +1,11 @@
-import * as React from "react";
+import React, { useRef, useCallback } from "react";
 import { render } from "react-dom";
 
-import { PinchZoom, OnTransformEvent, applyCssProperties } from "../src";
+import { PinchZoom, OnTransformEvent, applyCssProperties } from "..";
 
 const App = () => {
-  const ref = React.useRef<HTMLImageElement>(null);
-  const onTransform = React.useCallback(({ x, y, scale }: OnTransformEvent) => {
+  const ref = useRef<HTMLImageElement>(null);
+  const onTransform = useCallback(({ x, y, scale }: OnTransformEvent) => {
     applyCssProperties(ref.current, { x, y, scale });
   }, []);
 

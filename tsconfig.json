@@ -1,19 +1,9 @@
 {
+  "extends": "@tsconfig/create-react-app/tsconfig.json",
   "compilerOptions": {
-    "target": "ES5",
-    "lib": ["DOM", "ESNext"],
-    "moduleResolution": "Node",
     "jsx": "react",
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noEmit": false,
     "importHelpers": true
   },
-  "include": ["./src"],
-  "exclude": ["node_modules", "dist", ".cache"]
+  "include": ["./src"]
 }

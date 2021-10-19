@@ -1,7 +1,13 @@
-export type OnTransformEvent = { x: number; y: number; scale: number };
+import type { ReactNode } from "react";
 
-export type OwnProps = {
+export interface OnTransformEvent {
+  x: number;
+  y: number;
+  scale: number;
+}
+
+export interface OwnProps {
   onTransform: (event: OnTransformEvent) => void;
-  children: JSX.Element;
+  children: ReactNode;
   minScale?: number;
-};
+}
