@@ -24,6 +24,7 @@
     "prepublishOnly": "yarn run build"
   },
   "license": "MIT",
+  "repository": "git@github.com:retyui/react-fast-pinch-zoom.git",
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.5.0",
     "@types/react": "^16.9.35",
